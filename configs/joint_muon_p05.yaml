@@ -1,0 +1,12 @@
+# Softer state-free joint transform U sqrt(S) V^T. Promising early, but sensitive
+# to normalization/NS convergence; diagnostics are intentionally frequent.
+extends: base.yaml
+training:
+  steps: 300
+optimizer:
+  optimizer: joint-muon-p05
+  joint_mix_lambda: 0.5
+  joint_diagnostics_every: 5
+logging:
+  tensorboard_dir: results/joint_muon_p05/tensorboard
+  checkpoint_dir: results/joint_muon_p05/checkpoints

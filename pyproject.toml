@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optimstep-experiments"
+version = "0.1.0"
+description = "Reproducible optimizer experiments for large-batch contrastive training"
+requires-python = ">=3.10"
+dependencies = [
+  "datasets>=3.0",
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pyyaml>=6.0",
+  "scipy>=1.12",
+  "tensorboard>=2.17",
+  "torch>=2.5",
+  "transformers>=4.46",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.setuptools]
+packages = ["optimizers"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

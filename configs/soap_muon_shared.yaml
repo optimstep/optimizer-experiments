@@ -1,0 +1,9 @@
+# Best stateful coupling ablation so far: neighboring tensors share one
+# trace-normalized Shampoo interface covariance, followed by ordinary Muon.
+extends: base.yaml
+optimizer:
+  optimizer: soap-muon-interface-shared
+  interface_mix_lambda: 0.5  # Equal weight after normalizing both Grams by mean trace.
+logging:
+  tensorboard_dir: results/soap_muon_shared/tensorboard
+  checkpoint_dir: results/soap_muon_shared/checkpoints

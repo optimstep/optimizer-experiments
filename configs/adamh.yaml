@@ -1,0 +1,10 @@
+# AdamH control using the same hyperball geometry as MuonH, isolating whether the
+# benefit comes from the optimizer direction or fixed-radius parameterization.
+extends: base.yaml
+optimizer:
+  optimizer: adamw
+  matrix_step_mode: hyperball
+  matrix_step_ratio: 0.008
+logging:
+  tensorboard_dir: results/adamh/tensorboard
+  checkpoint_dir: results/adamh/checkpoints

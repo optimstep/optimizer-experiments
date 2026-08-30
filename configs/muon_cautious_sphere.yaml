@@ -1,0 +1,11 @@
+# Post-update soft attraction toward each matrix's initial Frobenius sphere.
+# Coordinate corrections apply only where they agree with the controlled update.
+extends: base.yaml
+optimizer:
+  optimizer: muon
+  matrix_step_mode: cautious-sphere-attraction
+  matrix_step_ratio: 0.008       # Peak ||delta W||_F / ||W||_F trust ratio.
+  matrix_sphere_attraction: 0.01 # Restore 1% of radial error at peak LR.
+logging:
+  tensorboard_dir: results/muon_cautious_sphere/tensorboard
+  checkpoint_dir: results/muon_cautious_sphere/checkpoints

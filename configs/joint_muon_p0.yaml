@@ -1,0 +1,12 @@
+# State-free neighbor coupling: concatenate consecutive momentum interfaces,
+# apply standard Muon jointly, split, then RMS-match each block.
+extends: base.yaml
+training:
+  steps: 300  # Historical joint-Muon comparisons used this horizon.
+optimizer:
+  optimizer: joint-muon-p0
+  joint_mix_lambda: 0.5
+  joint_diagnostics_every: 5
+logging:
+  tensorboard_dir: results/joint_muon_p0/tensorboard
+  checkpoint_dir: results/joint_muon_p0/checkpoints

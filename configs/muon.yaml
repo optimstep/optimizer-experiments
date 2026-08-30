@@ -1,0 +1,7 @@
+# Primary baseline: Polar-Express/Newton-Schulz Muon with RMS-matched updates.
+extends: base.yaml
+optimizer:
+  optimizer: muon
+logging:
+  tensorboard_dir: results/muon/tensorboard
+  checkpoint_dir: results/muon/checkpoints

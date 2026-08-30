@@ -1,0 +1,7 @@
+# Conventional elementwise adaptive baseline at the common learning rate.
+extends: base.yaml
+optimizer:
+  optimizer: adamw
+logging:
+  tensorboard_dir: results/adamw/tensorboard
+  checkpoint_dir: results/adamw/checkpoints

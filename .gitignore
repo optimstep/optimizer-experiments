@@ -1,0 +1,9 @@
+.venv/
+artifacts/
+results/
+.tblike_cache/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+

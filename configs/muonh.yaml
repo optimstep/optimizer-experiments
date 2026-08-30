@@ -1,0 +1,10 @@
+# MuonH-style control: normalize the full matrix displacement to the trust ratio,
+# apply it, then project the weight exactly back to its previous Frobenius radius.
+extends: base.yaml
+optimizer:
+  optimizer: muon
+  matrix_step_mode: hyperball
+  matrix_step_ratio: 0.008
+logging:
+  tensorboard_dir: results/muonh/tensorboard
+  checkpoint_dir: results/muonh/checkpoints

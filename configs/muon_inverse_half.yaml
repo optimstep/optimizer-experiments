@@ -1,0 +1,10 @@
+# Generalized Muon U sqrt(S) V^T. Tests whether retaining more spectral magnitude
+# than the polar update helps, while logging exact small-Gram numerical checks.
+extends: base.yaml
+optimizer:
+  optimizer: muon-inverse-half
+  spectral_eps: 0.001  # Relative floor prevents amplification of unresolved directions.
+  spectral_diagnostics_every: 5
+logging:
+  tensorboard_dir: results/muon_inverse_half/tensorboard
+  checkpoint_dir: results/muon_inverse_half/checkpoints

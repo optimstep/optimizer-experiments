@@ -1,0 +1,43 @@
+# Canonical controlled benchmark. Every optimizer ablation extends this file so
+# model, data order, update scale, schedule, and evaluation cadence stay fixed.
+model:
+  mode: train
+  random_bert: true  # Learn optimizer behavior from scratch, without pretrained priors.
+  tokenizer: artifacts/pruned_tokenizers/gooaq_wordpiece_8192  # English-only compact vocabulary.
+  hidden_size: 256
+  num_hidden_layers: 6
+  num_attention_heads: 8
+  intermediate_size: 1024
+
+data:
+  dataset: sentence-transformers/gooaq
+  dataset_config: pair
+  columns: [question, answer]
+  pretokenize: true
+  pretokenized_cache_file: artifacts/gooaq_wordpiece_8192.arrow
+  num_workers: 8
+  max_len: 96
+
+training:
+  batch_size: 16384  # Effective contrastive batch on one GPU.
+  chunk_size: 2048   # GradCache activation chunk; does not change the objective.
+  steps: 400
+  temperature: 0.05
+  tau_plus: 0.0001
+  schedule: wsd
+  warmup_frac: 0.1
+  decay_frac: 0.2
+  seed: 42
+
+optimizer:
+  lr: 0.0003
+  muon_lr: 0.0003
+  muon_momentum: 0.95
+  muon_rms_scale: 1.0  # Frobenius/RMS-match matrix updates before applying the shared LR.
+  wd: 0.0  # Sphere experiments must not be confounded by ordinary weight decay.
+
+logging:
+  log_every: 1
+  eval_every: 25
+  full_diagnostics_every: 5  # Expensive norms, alignments, spectra, and update/weight ratios.
+  checkpoint_every: 25

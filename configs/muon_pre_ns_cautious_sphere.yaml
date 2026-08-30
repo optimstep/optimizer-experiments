@@ -1,0 +1,12 @@
+# Inject a scalar-gated radial correction into momentum before Muon
+# orthogonalization, testing whether Muon's geometry improves the correction.
+extends: base.yaml
+optimizer:
+  optimizer: muon-pre-ns-cautious-sphere
+  pre_ns_sphere_strength: 0.03  # Dimensionless radial bias relative to momentum norm.
+  pre_ns_sphere_log_error_clip: 0.5
+  matrix_step_mode: trust-ratio
+  matrix_step_ratio: 0.008
+logging:
+  tensorboard_dir: results/muon_pre_ns_cautious_sphere/tensorboard
+  checkpoint_dir: results/muon_pre_ns_cautious_sphere/checkpoints
