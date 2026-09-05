@@ -54,8 +54,9 @@ def command_for(config, action):
             str(config["data"]["shards"]),
         ]
     if action == "run":
+        torchrun = Path(sys.executable).with_name("torchrun")
         return [
-            "torchrun",
+            str(torchrun) if torchrun.is_file() else "torchrun",
             "--standalone",
             f"--nproc_per_node={int(config['hardware']['nproc_per_node'])}",
             "train_gpt.py",

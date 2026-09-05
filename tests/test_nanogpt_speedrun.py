@@ -15,9 +15,9 @@ def test_baseline_records_pinned_upstream_and_official_world_size():
 
 def test_run_command_uses_configured_process_count():
     config = load_config(CONFIG)
-    assert command_for(config, "run") == [
-        "torchrun", "--standalone", "--nproc_per_node=8", "train_gpt.py"
-    ]
+    command = command_for(config, "run")
+    assert Path(command[0]).name == "torchrun"
+    assert command[1:] == ["--standalone", "--nproc_per_node=8", "train_gpt.py"]
 
 
 def test_two_h100_profile_preserves_baseline_and_changes_world_size():
