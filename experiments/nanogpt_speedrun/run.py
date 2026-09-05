@@ -10,12 +10,14 @@ from pathlib import Path
 
 import yaml
 
+from experiments.train import load_config as load_inherited_config
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_config(path):
-    config = yaml.safe_load(Path(path).read_text())
+    config = load_inherited_config(path)
     if not isinstance(config, dict):
         raise ValueError("speedrun config must be a mapping")
     return config

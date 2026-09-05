@@ -1,0 +1,9 @@
+# Cost-efficient Hopper iteration profile. It preserves the upstream global batch
+# through four-way gradient accumulation, so compare loss/step rather than wall
+# time against the official 8xH100 record.
+extends: baseline.yaml
+name: nanogpt_speedrun_baseline_2xh100
+hardware:
+  nproc_per_node: 2
+logging:
+  output_dir: results/nanogpt_speedrun/baseline_2xh100

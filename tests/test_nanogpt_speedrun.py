@@ -19,3 +19,9 @@ def test_run_command_uses_configured_process_count():
         "torchrun", "--standalone", "--nproc_per_node=8", "train_gpt.py"
     ]
 
+
+def test_two_h100_profile_preserves_baseline_and_changes_world_size():
+    config = load_config("configs/nanogpt_speedrun/baseline_2xh100.yaml")
+    assert config["hardware"]["nproc_per_node"] == 2
+    assert config["data"]["shards"] == 9
+    assert config["runtime"]["patch"] is None
