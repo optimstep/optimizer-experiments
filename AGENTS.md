@@ -98,3 +98,26 @@ focused test if optimizer math changes, run local and remote smoke tests, then a
 the config to `scripts/run_suite.sh`. Document whether the run is a correctness
 reference, performance implementation, or exploratory ablation.
 
+For next-token work, keep only baselines and promoted treatments in
+`configs/next_token/`. Express widths, short smoke durations, and parameter sweeps
+as `--set` overrides or suite environment variables. Do not commit a YAML for
+every point in a sweep.
+
+## Modded-NanoGPT speedrun tier
+
+- Never edit `third_party/modded-nanogpt` in place. It is a pinned correctness and
+  performance baseline. Put a treatment in a tracked patch and reference it from
+  a derived `configs/nanogpt_speedrun/*.yaml` file.
+- Confirm the configured 40-character revision and a clean submodule before data
+  preparation or launch. Do not silently advance the pin; upstream changes many
+  optimizer, architecture, schedule, and kernel variables simultaneously.
+- The official scenario is 8xH100. A divisor of eight can execute because the
+  trainer adjusts gradient accumulation, but it is not directly comparable in
+  wall time. Compare baseline and treatment on the identical host and GPU count.
+- First compilation adds substantial untimed latency. Run baseline and treatment
+  with equivalent warm caches or alternate their order across repetitions.
+- Preserve the upstream data pipeline, validation token count, and 3.28 target.
+  Our first question is loss/step and stability; speed claims require repeated
+  paired runs and the upstream statistical rules.
+- Set `DISABLE_FP8=1` only as a compatibility diagnostic. Do not compare that run
+  against the FP8 baseline as an optimizer ablation.

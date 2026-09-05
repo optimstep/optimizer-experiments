@@ -1,0 +1,17 @@
+# Exact pinned modded-nanogpt baseline. The upstream trainer intentionally keeps
+# architecture and schedule in code, so this file records only orchestration.
+name: nanogpt_speedrun_baseline
+upstream:
+  path: third_party/modded-nanogpt
+  revision: ecbb586296d3dac36fd206211f25d63bad4a6b35
+hardware:
+  nproc_per_node: 8  # Official timing hardware is 8xH100; divisors of 8 also run.
+data:
+  cache_script: data/cached_fineweb10B.py
+  shards: 9  # First 900M training tokens, as recommended upstream.
+runtime:
+  environment: {}
+  patch: null  # Treatment configs point to a tracked patch relative to repository root.
+logging:
+  output_dir: results/nanogpt_speedrun/baseline
+

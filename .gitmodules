@@ -1,0 +1,3 @@
+[submodule "third_party/modded-nanogpt"]
+	path = third_party/modded-nanogpt
+	url = https://github.com/KellerJordan/modded-nanogpt.git

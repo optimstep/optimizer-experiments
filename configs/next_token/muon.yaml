@@ -1,0 +1,10 @@
+# Muon control arm with the same matched matrix-update ratio. Embeddings, norms,
+# biases, and the tied output head remain on auxiliary AdamW.
+extends: base.yaml
+optimizer:
+  algorithm: muon
+  muon_lr: 0.02
+  muon_momentum: 0.95
+  muon_variant: polar
+logging:
+  tensorboard_dir: results/next_token/muon/tensorboard

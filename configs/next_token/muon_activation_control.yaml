@@ -1,0 +1,9 @@
+# The identical activation-feedback treatment composed with standard Muon. This
+# isolates optimizer direction from the effect of controlling residual scales.
+extends: muon.yaml
+optimizer:
+  weight_activation_force: 12.0
+  weight_activation_source_strength: 0.05
+logging:
+  tensorboard_dir: results/next_token/muon_activation_control/tensorboard
+

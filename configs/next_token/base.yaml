@@ -1,0 +1,42 @@
+# Canonical next-token benchmark. Width and run length can be overridden without
+# adding another config: --set model.hidden_size=1024 --set training.steps=100.
+model:
+  tokenizer: artifacts/pruned_tokenizers/gooaq_wordpiece_8192
+  vocab_size: 8192
+  hidden_size: 128
+  num_hidden_layers: 6
+  num_attention_heads: 2
+  abc_reference_width: 128  # Reference width for abc/muP-style matrix initialization.
+
+data:
+  dataset: roneneldan/TinyStories
+  split: train
+  validation_split: validation
+  text_column: text
+  synthetic: false
+
+training:
+  batch_size: 64
+  sequence_length: 96
+  steps: 4000
+  seed: 42
+  schedule: wsd
+  warmup_frac: 0.1
+  decay_frac: 0.2
+
+optimizer:
+  algorithm: adamw
+  lr: 0.0003
+  weight_decay: 0.01
+  matrix_step_ratio: 0.008  # Peak ||delta W||_F / ||W||_F across matrix parameters.
+  weight_activation_force: 0.0
+  weight_activation_source_strength: 0.0
+  weight_activation_log_clip: 1.0
+
+logging:
+  full_diagnostics_every: 5
+  validation_every: 25
+  validation_batches: 4
+  checkpoint_every: 25
+  tensorboard_dir: results/next_token/base/tensorboard
+

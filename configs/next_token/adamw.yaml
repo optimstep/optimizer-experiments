@@ -1,0 +1,5 @@
+# Elementwise adaptive control arm. Like every arm in this setup, its matrix
+# displacement is matched to the configured update/weight ratio.
+extends: base.yaml
+logging:
+  tensorboard_dir: results/next_token/adamw/tensorboard
