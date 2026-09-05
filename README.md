@@ -35,3 +35,20 @@ make hard-stop
 ```
 
 See `AGENTS.md` for operating rules, monitoring, and known failure modes.
+
+## Next-token benchmark
+
+The compact second setup trains a 6-layer decoder on TinyStories. It compares
+AdamW and Muon with and without residual-activation feedback while holding the
+model, schedule, update/weight ratio, validation, and seed fixed.
+
+```bash
+make next-token-smoke
+make next-token-suite
+
+# Width is an override, not another checked-in config.
+WIDTH=1024 STEPS=4000 make next-token-suite
+```
+
+The five commented configs live in `configs/next_token/`. The larger exploratory
+grid is intentionally not published; resolved configs are saved with every run.

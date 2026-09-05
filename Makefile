@@ -6,7 +6,7 @@ REMOTE ?=
 REMOTE_DIR ?= /workspace/optimizer-experiments
 RESULTS ?= results
 
-.PHONY: bootstrap install prepare smoke run test lint remote-setup remote-run sync dashboard hard-stop
+.PHONY: bootstrap install prepare smoke run next-token-smoke next-token-suite test lint validate-configs remote-setup remote-run sync dashboard hard-stop
 
 bootstrap:
 	$(PYTHON) -m venv $(VENV)
@@ -27,11 +27,25 @@ smoke:
 run:
 	$(VENV)/bin/python experiments/train.py --config $(CONFIG)
 
+next-token-smoke:
+	$(VENV)/bin/python -m experiments.next_token.train \
+		--config configs/next_token/muon.yaml \
+		--set data.synthetic=true --set training.steps=2 \
+		--set training.batch_size=4 --set training.sequence_length=16 \
+		--set logging.validation_batches=0 --set logging.checkpoint_every=0 \
+		--set logging.tensorboard_dir=results/next_token/smoke/tensorboard
+
+next-token-suite:
+	PYTHON=$(VENV)/bin/python bash scripts/run_next_token_suite.sh
+
 test:
 	$(VENV)/bin/pytest -q
 
 lint:
 	$(VENV)/bin/ruff check .
+
+validate-configs:
+	$(VENV)/bin/python scripts/validate_configs.py
 
 remote-setup:
 	test -n "$(REMOTE)"
@@ -54,4 +68,3 @@ hard-stop:
 	test -n "$(VAST_INSTANCE_ID)"
 	test -n "$(MAX_DOLLARS)"
 	bash scripts/vast_hard_stop.sh
-

@@ -1,0 +1,10 @@
+# Best representative activation-feedback ablation from the exploratory sweep.
+# It rotates the fixed-RMS matrix update toward restoring target residual scales;
+# layer-zero residual-source weights use the smaller independent strength below.
+extends: adamw.yaml
+optimizer:
+  weight_activation_force: 12.0
+  weight_activation_source_strength: 0.05
+logging:
+  tensorboard_dir: results/next_token/adamw_activation_control/tensorboard
+

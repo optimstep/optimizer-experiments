@@ -98,3 +98,7 @@ focused test if optimizer math changes, run local and remote smoke tests, then a
 the config to `scripts/run_suite.sh`. Document whether the run is a correctness
 reference, performance implementation, or exploratory ablation.
 
+For next-token work, keep only baselines and promoted treatments in
+`configs/next_token/`. Express widths, short smoke durations, and parameter sweeps
+as `--set` overrides or suite environment variables. Do not commit a YAML for
+every point in a sweep.
