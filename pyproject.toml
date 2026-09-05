@@ -31,3 +31,6 @@ testpaths = ["tests"]
 # Keep CI stable across Ruff releases and focus this research repository on
 # correctness errors rather than continuously expanding stylistic rule sets.
 select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff]
+extend-exclude = ["third_party"]

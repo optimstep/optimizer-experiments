@@ -6,9 +6,9 @@ REMOTE ?=
 REMOTE_DIR ?= /workspace/optimizer-experiments
 RESULTS ?= results
 
-.PHONY: bootstrap install prepare smoke run next-token-smoke next-token-suite test lint validate-configs remote-setup remote-run sync dashboard hard-stop
+.PHONY: bootstrap install submodules prepare smoke run next-token-smoke next-token-suite nanogpt-install nanogpt-data nanogpt-dry-run nanogpt-run test lint validate-configs remote-setup remote-run sync dashboard hard-stop
 
-bootstrap:
+bootstrap: submodules
 	$(PYTHON) -m venv $(VENV)
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -e '.[dev]'
@@ -17,6 +17,9 @@ bootstrap:
 install:
 	$(PYTHON) -m pip install -e '.[dev]'
 	$(PYTHON) -m pip install 'git+https://github.com/b0nce/MemoryEfficientCLIP.git'
+
+submodules:
+	git submodule update --init --recursive
 
 prepare:
 	$(VENV)/bin/python experiments/train.py --config configs/base.yaml --prepare-only
@@ -38,6 +41,20 @@ next-token-smoke:
 next-token-suite:
 	PYTHON=$(VENV)/bin/python bash scripts/run_next_token_suite.sh
 
+NANOGPT_CONFIG ?= configs/nanogpt_speedrun/baseline.yaml
+
+nanogpt-install: submodules
+	$(VENV)/bin/python -m experiments.nanogpt_speedrun.run install --config $(NANOGPT_CONFIG)
+
+nanogpt-data: submodules
+	$(VENV)/bin/python -m experiments.nanogpt_speedrun.run data --config $(NANOGPT_CONFIG)
+
+nanogpt-dry-run: submodules
+	$(VENV)/bin/python -m experiments.nanogpt_speedrun.run run --config $(NANOGPT_CONFIG) --dry-run
+
+nanogpt-run: submodules
+	$(VENV)/bin/python -m experiments.nanogpt_speedrun.run run --config $(NANOGPT_CONFIG)
+
 test:
 	$(VENV)/bin/pytest -q
 
@@ -49,7 +66,7 @@ validate-configs:
 
 remote-setup:
 	test -n "$(REMOTE)"
-	rsync -az --delete --exclude results --exclude artifacts --exclude .venv ./ $(REMOTE):$(REMOTE_DIR)/
+	rsync -az --delete --exclude results --exclude artifacts --exclude .venv --exclude third_party/modded-nanogpt/ ./ $(REMOTE):$(REMOTE_DIR)/
 	ssh $(REMOTE) 'cd $(REMOTE_DIR) && make bootstrap prepare'
 
 remote-run:

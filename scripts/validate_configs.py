@@ -16,7 +16,8 @@ def main():
         config = load_config(path)
         if not isinstance(config, dict) or not config:
             raise ValueError(f"{path}: expected a non-empty mapping")
-        destination = config.get("logging", {}).get("tensorboard_dir")
+        logging = config.get("logging", {})
+        destination = logging.get("tensorboard_dir") or logging.get("output_dir")
         if path.name != "base.yaml" and not destination:
             raise ValueError(f"{path}: missing logging.tensorboard_dir")
         if destination:

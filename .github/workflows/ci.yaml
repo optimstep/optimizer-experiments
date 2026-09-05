@@ -15,6 +15,6 @@ jobs:
           cache: pip
       - run: pip install --extra-index-url https://download.pytorch.org/whl/cpu -e '.[dev]'
       - run: ruff check .
-      - run: python -m py_compile experiments/*.py experiments/next_token/*.py optimizers/*.py
+      - run: python -m py_compile experiments/*.py experiments/next_token/*.py experiments/nanogpt_speedrun/*.py optimizers/*.py
       - run: python scripts/validate_configs.py
       - run: pytest -q
